@@ -5,13 +5,33 @@ build_aux_docs.py -- create the EM&S submission companions:
 
   python src/build_aux_docs.py
 """
+import re
 from pathlib import Path
 from docx import Document
 from docx.shared import Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 
 PAPER = Path(r"C:/Users/vaspapa/Desktop/LakeForcing_OpenDrift/paper")
 SERIF = "Times New Roman"
+HLINK = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink"
+URL_RE = re.compile(r"(https?://[^\s,)]+)")
+
+
+def add_hyperlink(paragraph, url, text, size_hp="22"):
+    """Append a clickable external hyperlink run (blue, underlined, TNR 11)."""
+    r_id = paragraph.part.relate_to(url, HLINK, is_external=True)
+    hl = OxmlElement("w:hyperlink"); hl.set(qn("r:id"), r_id)
+    run = OxmlElement("w:r"); rpr = OxmlElement("w:rPr")
+    col = OxmlElement("w:color"); col.set(qn("w:val"), "0563C1"); rpr.append(col)
+    un = OxmlElement("w:u"); un.set(qn("w:val"), "single"); rpr.append(un)
+    rf = OxmlElement("w:rFonts")
+    rf.set(qn("w:ascii"), SERIF); rf.set(qn("w:hAnsi"), SERIF); rpr.append(rf)
+    sz = OxmlElement("w:sz"); sz.set(qn("w:val"), size_hp); rpr.append(sz)
+    run.append(rpr)
+    t = OxmlElement("w:t"); t.text = text; t.set(qn("xml:space"), "preserve")
+    run.append(t); hl.append(run); paragraph._p.append(hl)
 
 TITLE = ("LakeForcing-OpenDrift: an open, reproducible pipeline for generating "
          "hydrodynamic and wind-wave forcing of inland lakes to drive Lagrangian "
@@ -52,7 +72,18 @@ def build_cover_letter():
     def para(text, align=WD_ALIGN_PARAGRAPH.JUSTIFY, after=10, bold=False, italic=False):
         p = doc.add_paragraph(); p.alignment = align
         p.paragraph_format.space_after = Pt(after)
-        r = p.add_run(text); r.bold = bold; r.italic = italic
+        for k, part in enumerate(URL_RE.split(text)):   # turn URLs into hyperlinks
+            if not part:
+                continue
+            if k % 2 == 1:
+                trail = ""
+                while part and part[-1] in ".,;:":
+                    trail = part[-1] + trail; part = part[:-1]
+                add_hyperlink(p, part, part)
+                if trail:
+                    p.add_run(trail)
+            else:
+                r = p.add_run(part); r.bold = bold; r.italic = italic
         return p
 
     para("12 June 2026", align=WD_ALIGN_PARAGRAPH.LEFT, after=6)
@@ -105,8 +136,9 @@ def build_cover_letter():
          "from funding agencies in the public, commercial, or not-for-profit sectors; "
          "the work was carried out using the existing research infrastructure of "
          "CERTH-ITI. The source code is openly available at "
-         "https://github.com/vaspapa79/LakeForcing-OpenDrift, and the generated "
-         "forcing dataset is archived on Zenodo with a citable DOI minted on release.")
+         "https://github.com/vaspapa79/LakeForcing-OpenDrift and archived on Zenodo "
+         "(concept DOI: https://doi.org/10.5281/zenodo.20627160); the generated "
+         "twelve-lake forcing dataset is distributed as release assets of the same archive.")
 
     para("Thank you for your consideration. We look forward to your response.",
          after=14)
