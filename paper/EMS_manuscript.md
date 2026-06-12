@@ -717,8 +717,6 @@ the behaviour expected of the third-generation SWAN growth physics on enclosed w
 
 ### 5.2 Surface transport
 
-[[FIG:demonstration]]
-
 Figure 6 overlays, for each lake, the time-mean surface-current field (on a per-lake colour
 scale) with the 36 h trajectories of the 400 released particles and their common release
 point. The trajectories remain within the basin in every case — confirming that the
@@ -749,9 +747,9 @@ material — as it does in marine-debris studies (Chenillat et al., 2021; Iskand
 lake-specific spatial structure of the trajectories. Reporting both cases makes the relative
 roles explicit and exercises every exported field (currents, Stokes drift and wind).
 
-### 5.3 Physical consistency
+[[FIG:demonstration]]
 
-[[FIG:scatter]]
+### 5.3 Physical consistency
 
 Figure 7 plots the 36 h current+Stokes drift against lake mean depth and against peak
 current speed. With only twelve lakes these relationships are best read as rank tendencies
@@ -786,6 +784,8 @@ Erken), where some interior points fall in near-stagnant water — Erken's ensem
 drift (~0.2 km) is an order of magnitude below the value at its primary seed (~2.0 km). The
 single-release demonstration should therefore be read as illustrative of the forcing's
 capability rather than as a converged, ensemble transport estimate (Section 6).
+
+[[FIG:scatter]]
 
 ### 5.4 Quality control
 
