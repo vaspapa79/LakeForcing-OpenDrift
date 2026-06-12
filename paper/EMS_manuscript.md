@@ -45,7 +45,7 @@ OpenDrift; Lagrangian particle tracking; Reproducible open-source workflow
 
 | | |
 |---|---|
-| Current code version | v1.1.0 |
+| Current code version | v1.1.1 |
 | Permanent link to code / repository | https://github.com/vaspapa79/LakeForcing-OpenDrift (archived on Zenodo, concept DOI resolving to the latest version: https://doi.org/10.5281/zenodo.20627160) |
 | Reproducible test capsule | A small Delft3D sample in `tests/fixtures/` runs the σ-to-z exporter via `pytest` and GitHub-Actions CI with no Delft3D install; full hydrodynamic runs require the external engine |
 | Legal code licence | MIT (source code); CC-BY-4.0 (generated forcing dataset) |
@@ -1041,7 +1041,7 @@ steps.
 | | |
 |---|---|
 | Software name | LakeForcing-OpenDrift |
-| Version | v1.1.0 |
+| Version | v1.1.1 |
 | Developers | V. Papaioannou, C. G. E. Anagnostopoulos, A. Moumtzidou, I. Gialampoukidis, S. Vrochidis, I. Kompatsiaris (CERTH-ITI) |
 | Contact | Vassilios Papaioannou — vaspapa@iti.gr; CERTH-ITI, 6th km Charilaou-Thermi, 57001 Thessaloniki, Greece |
 | Year first available | 2025 |
