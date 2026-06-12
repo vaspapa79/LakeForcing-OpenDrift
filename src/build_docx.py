@@ -130,7 +130,7 @@ def add_runs(par, text):
             r = par.add_run(clean(tok[2:-2])); r.bold = True
         elif tok.startswith("`") and tok.endswith("`"):
             r = par.add_run(clean(tok[1:-1])); r.font.name = SERIF
-            r.font.size = Pt(12); r.font.color.rgb = RGBColor(0, 0, 0)
+            r.font.size = Pt(10); r.font.color.rgb = RGBColor(0, 0, 0)
         elif tok.startswith("_{") and tok.endswith("}"):
             r = par.add_run(clean(tok[2:-1])); r.font.subscript = True
         elif tok.startswith("*") and tok.endswith("*") and len(tok) > 2:
@@ -152,7 +152,7 @@ def front_matter(doc):
     p = doc.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     for i, (name, sup) in enumerate(authors):
         if i:
-            p.add_run(", ")
+            p.add_run(", ").font.size = Pt(12)
         p.add_run(name).font.size = Pt(12)
         s = p.add_run(sup); s.font.superscript = True; s.font.size = Pt(12)
 
@@ -161,7 +161,7 @@ def front_matter(doc):
     ar = a.add_run(" Information Technologies Institute, Centre for Research and "
                    "Technology Hellas (CERTH-ITI), 6th km Charilaou-Thermi, "
                    "57001 Thessaloniki, Greece")
-    ar.italic = True; ar.font.size = Pt(10.5)
+    ar.italic = True; ar.font.size = Pt(10)
 
     emails = [("Vassilios Papaioannou", "vaspapa@iti.gr"),
               ("Christos G. E. Anagnostopoulos", "anagn_c@iti.gr"),
@@ -170,15 +170,15 @@ def front_matter(doc):
               ("Stefanos Vrochidis", "stefanos@iti.gr"),
               ("Ioannis Kompatsiaris", "ikom@iti.gr")]
     e = doc.add_paragraph(); e.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    lbl = e.add_run("E-mail addresses: "); lbl.italic = True; lbl.font.size = Pt(10.5)
+    lbl = e.add_run("E-mail addresses: "); lbl.italic = True; lbl.font.size = Pt(10)
     for i, (name, mail) in enumerate(emails):
         if i:
-            e.add_run("; ").font.size = Pt(10.5)
-        e.add_run(f"{mail} ({name})").font.size = Pt(10.5)
+            e.add_run("; ").font.size = Pt(10)
+        e.add_run(f"{mail} ({name})").font.size = Pt(10)
 
     c = doc.add_paragraph(); c.alignment = WD_ALIGN_PARAGRAPH.CENTER
     c.add_run("* Corresponding author: Vassilios Papaioannou, vaspapa@iti.gr, "
-              "Tel. +30 697 285 4287").font.size = Pt(10.5)
+              "Tel. +30 697 285 4287").font.size = Pt(10)
     doc.add_paragraph()
 
 
@@ -212,8 +212,8 @@ def emit_figure(doc, name):
     p.add_run().add_picture(str(path), width=Inches(img_width_in(path, 6.9)))
     cap = doc.add_paragraph(); cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
     cap.paragraph_format.space_after = Pt(2); cap.paragraph_format.space_before = Pt(2)
-    b = cap.add_run(f"Figure {num}. "); b.bold = True; b.font.size = Pt(10.5)
-    cr = cap.add_run(caption); cr.font.size = Pt(10.5)
+    b = cap.add_run(f"Figure {num}. "); b.bold = True; b.font.size = Pt(10)
+    cr = cap.add_run(caption); cr.font.size = Pt(10)
     spacer(doc)
 
 
@@ -290,7 +290,7 @@ HLINK = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyp
 
 
 def add_hyperlink(paragraph, url, text):
-    """Append a clickable external hyperlink run (blue, underlined, TNR 12)."""
+    """Append a clickable external hyperlink run (blue, underlined, TNR 10)."""
     r_id = paragraph.part.relate_to(url, HLINK, is_external=True)
     hl = OxmlElement("w:hyperlink"); hl.set(qn("r:id"), r_id)
     run = OxmlElement("w:r"); rpr = OxmlElement("w:rPr")
@@ -298,7 +298,7 @@ def add_hyperlink(paragraph, url, text):
     un = OxmlElement("w:u"); un.set(qn("w:val"), "single"); rpr.append(un)
     rf = OxmlElement("w:rFonts")
     rf.set(qn("w:ascii"), SERIF); rf.set(qn("w:hAnsi"), SERIF); rpr.append(rf)
-    sz = OxmlElement("w:sz"); sz.set(qn("w:val"), "24"); rpr.append(sz)
+    sz = OxmlElement("w:sz"); sz.set(qn("w:val"), "20"); rpr.append(sz)
     run.append(rpr)
     t = OxmlElement("w:t"); t.text = text
     t.set(qn("xml:space"), "preserve"); run.append(t)
@@ -338,17 +338,18 @@ def main():
         sec.left_margin = Inches(0.65); sec.right_margin = Inches(0.65)
     # base style: Times New Roman, justified, larger & tighter
     normal = doc.styles["Normal"]
-    normal.font.name = SERIF; normal.font.size = Pt(12)
+    normal.font.name = SERIF; normal.font.size = Pt(10)
     pf = normal.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     pf.line_spacing = 1.0
     pf.space_before = Pt(0); pf.space_after = Pt(3)
-    hsizes = {"Heading 1": 16, "Heading 2": 14, "Heading 3": 12}
+    hsizes = {"Heading 1": 12, "Heading 2": 12, "Heading 3": 12}
     for hs in ("Heading 1", "Heading 2", "Heading 3", "Title"):
         try:
             st = doc.styles[hs]
             st.font.name = SERIF
             st.font.color.rgb = RGBColor(0, 0, 0)   # black headings, no accent-blue
+            st.font.bold = True                     # keep titles distinct at 12 pt
             if hs in hsizes:
                 st.font.size = Pt(hsizes[hs])
             st.paragraph_format.space_before = Pt(6)
