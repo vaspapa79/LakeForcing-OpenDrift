@@ -9,29 +9,40 @@ authors:
     given-names: Vassilios
     email: vaspapa@iti.gr
     affiliation: "Information Technologies Institute, CERTH, Thessaloniki, Greece"
+    orcid: "https://orcid.org/0000-0001-6598-7107"
   - family-names: Anagnostopoulos
     given-names: Christos G. E.
     email: anagn_c@iti.gr
     affiliation: "Information Technologies Institute, CERTH, Thessaloniki, Greece"
+    orcid: "https://orcid.org/0009-0006-9839-4870"
+  - family-names: Valsamis
+    given-names: Dimitrios
+    email: dvalsamis@iti.gr
+    affiliation: "Information Technologies Institute, CERTH, Thessaloniki, Greece"
+    orcid: "https://orcid.org/0009-0002-6699-4426"
   - family-names: Moumtzidou
     given-names: Anastasia
     email: moumtzid@iti.gr
     affiliation: "Information Technologies Institute, CERTH, Thessaloniki, Greece"
+    orcid: "https://orcid.org/0000-0001-7615-8400"
   - family-names: Gialampoukidis
     given-names: Ilias
     email: heliasgj@iti.gr
     affiliation: "Information Technologies Institute, CERTH, Thessaloniki, Greece"
+    orcid: "https://orcid.org/0000-0002-5234-9795"
   - family-names: Vrochidis
     given-names: Stefanos
     email: stefanos@iti.gr
     affiliation: "Information Technologies Institute, CERTH, Thessaloniki, Greece"
+    orcid: "https://orcid.org/0000-0002-2505-9178"
   - family-names: Kompatsiaris
     given-names: Ioannis
     email: ikom@iti.gr
     affiliation: "Information Technologies Institute, CERTH, Thessaloniki, Greece"
+    orcid: "https://orcid.org/0000-0001-6447-9020"
 license: MIT
-version: 1.2.0
-date-released: "2026-06-22"
+version: 1.2.1
+date-released: "2026-07-04"
 repository-code: "https://github.com/vaspapa79/LakeForcing"
 url: "https://github.com/vaspapa79/LakeForcing"
 keywords:
@@ -51,8 +62,8 @@ abstract: >-
   simulation for any inland lake, and exports CF-compliant NetCDF that drives the
   OpenDrift particle tracker. The core contribution is a sigma-layer to z-level
   coupling that makes terrain-following Delft3D output ingestible by OpenDrift. It is
-  demonstrated unchanged on twelve lakes across all inhabited continents, benchmarked
-  against an expert-built reservoir model and against independent satellite lake-surface
-  temperature, and the exporter is covered by a continuous-integration test on a small
+  demonstrated unchanged on twelve lakes across all inhabited continents, checked for
+  consistency against a same-group expert-built reservoir model and against independent
+  satellite lake-surface temperature, and the exporter is covered by a continuous-integration test on a small
   bundled Delft3D fixture (no Delft3D installation required).
 doi: 10.5281/zenodo.20627160

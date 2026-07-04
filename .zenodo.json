@@ -1,6 +1,6 @@
 {
   "title": "LakeForcing: a sigma-to-z coupling algorithm and open pipeline for hydrodynamic and wind-wave forcing of inland lakes to drive Lagrangian transport models",
-  "description": "Open Python pipeline that assembles bathymetry (HydroLAKES/GLOBathy/DAHITI) and ERA5 meteorology, auto-configures and runs a coupled Delft3D-FLOW + Delft3D-WAVE simulation for any inland lake, and exports CF-compliant NetCDF that drives the OpenDrift particle tracker. Core contribution: a sigma-layer to z-level coupling (currents, temperature, water level and wave-driven Stokes drift). Demonstrated unchanged on 12 lakes on all inhabited continents (36S-60N); benchmarked against an expert-built reservoir model and against independent satellite lake-surface-temperature observations. The sigma-to-z exporter is covered by a continuous-integration test on a small bundled Delft3D fixture, so it runs with no Delft3D installation.",
+  "description": "Open Python pipeline that assembles bathymetry (HydroLAKES/GLOBathy/DAHITI) and ERA5 meteorology, auto-configures and runs a coupled Delft3D-FLOW + Delft3D-WAVE simulation for any inland lake, and exports CF-compliant NetCDF that drives the OpenDrift particle tracker. Core contribution: a sigma-layer to z-level coupling (currents, temperature, water level and wave-driven Stokes drift). Demonstrated unchanged on 12 lakes on all inhabited continents (36S-60N); checked for consistency against a same-group expert-built reservoir model and against independent satellite lake-surface-temperature observations. The sigma-to-z exporter is covered by a continuous-integration test on a small bundled Delft3D fixture, so it runs with no Delft3D installation.",
   "upload_type": "software",
   "access_right": "open",
   "license": "MIT",
@@ -10,12 +10,13 @@
     "reproducible pipeline", "satellite validation", "ERA5"
   ],
   "creators": [
-    { "name": "Papaioannou, Vassilios", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece" },
-    { "name": "Anagnostopoulos, Christos G. E.", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece" },
-    { "name": "Moumtzidou, Anastasia", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece" },
-    { "name": "Gialampoukidis, Ilias", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece" },
-    { "name": "Vrochidis, Stefanos", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece" },
-    { "name": "Kompatsiaris, Ioannis", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece" }
+    { "name": "Papaioannou, Vassilios", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece", "orcid": "0000-0001-6598-7107" },
+    { "name": "Anagnostopoulos, Christos G. E.", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece", "orcid": "0009-0006-9839-4870" },
+    { "name": "Valsamis, Dimitrios", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece", "orcid": "0009-0002-6699-4426" },
+    { "name": "Moumtzidou, Anastasia", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece", "orcid": "0000-0001-7615-8400" },
+    { "name": "Gialampoukidis, Ilias", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece", "orcid": "0000-0002-5234-9795" },
+    { "name": "Vrochidis, Stefanos", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece", "orcid": "0000-0002-2505-9178" },
+    { "name": "Kompatsiaris, Ioannis", "affiliation": "Information Technologies Institute, CERTH, Thessaloniki, Greece", "orcid": "0000-0001-6447-9020" }
   ],
   "related_identifiers": [
     { "relation": "isSupplementTo", "identifier": "https://github.com/vaspapa79/LakeForcing", "scheme": "url" }
