@@ -204,7 +204,7 @@ def main():
                  fontsize=18, y=0.997)
     fig.tight_layout(rect=[0, 0, 1, 0.985])
     out = ROOT / "docs" / "figure_satellite.png"
-    fig.savefig(out, dpi=300, bbox_inches="tight", facecolor="white")
+    fig.savefig(out, dpi=500, bbox_inches="tight", facecolor="white")
     print("wrote", out)
 
     warm = [results[p]["bias_C"] for p in results if p != "nova_ponte"]

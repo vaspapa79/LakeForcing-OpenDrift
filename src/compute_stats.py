@@ -1,7 +1,7 @@
 """
 compute_stats.py -- per-lake morphometric/forcing predictors + Spearman rank
 correlations of 36-h drift against them (review comment #23). Also dumps the
-mean-depth / mean-wind values needed for Table 3 and Fig. 7a.
+mean-depth / mean-wind values needed for Table 4 and Fig. 7a.
 """
 import json
 from pathlib import Path

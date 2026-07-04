@@ -244,7 +244,7 @@ def fig_architecture():
     flow(99, 101.5, 32, "export")
 
     ax.set_ylim(8.5, 57.2)                    # crop empty top/bottom margins (tight title)
-    fig.savefig(DOCS / "figure_architecture.png", dpi=300, bbox_inches="tight",
+    fig.savefig(DOCS / "figure_architecture.png", dpi=500, bbox_inches="tight",
                 pad_inches=0.04, facecolor="white")
     plt.close(fig)
     print("wrote figure_architecture.png")
@@ -306,7 +306,7 @@ def fig_sigma_schematic():
     fig.tight_layout(rect=[0, 0, 1, 0.90])
     fig.suptitle(r"$z_k=\zeta+\sigma_k\,(\zeta+d)$  : reconstruct each σ-centre depth, "
                  "then interpolate to fixed z-levels", fontsize=16.5, y=0.975)
-    fig.savefig(DOCS / "figure_sigma_schematic.png", dpi=300, bbox_inches="tight",
+    fig.savefig(DOCS / "figure_sigma_schematic.png", dpi=500, bbox_inches="tight",
                 facecolor="white")
     plt.close(fig)
     print("wrote figure_sigma_schematic.png")
@@ -359,7 +359,7 @@ def fig_lake_map():
     ax.set_title("Geographic distribution of the twelve demonstration lakes\n"
                  "(circles = natural lakes, squares = reservoirs; 36°S to 60°N, all inhabited continents)",
                  fontsize=18, pad=4)
-    fig.savefig(DOCS / "figure_lake_map.png", dpi=300, bbox_inches="tight",
+    fig.savefig(DOCS / "figure_lake_map.png", dpi=500, bbox_inches="tight",
                 facecolor="white")
     plt.close(fig)
     print("wrote figure_lake_map.png")
@@ -411,7 +411,7 @@ def fig_drift_scatter():
                  "fetch and wind exposure —\nnot peak current alone "
                  "(cf. Polyfytos: strong localised river jet, moderate drift)",
                  fontsize=18, y=0.98)
-    fig.savefig(DOCS / "figure_drift_scatter.png", dpi=300, bbox_inches="tight",
+    fig.savefig(DOCS / "figure_drift_scatter.png", dpi=500, bbox_inches="tight",
                 facecolor="white")
     plt.close(fig)
     print("wrote figure_drift_scatter.png")
@@ -473,7 +473,7 @@ def fig_vertical_sigma_z(prefix="erken"):
     fig.tight_layout(rect=[0, 0, 1, 0.90])
     fig.suptitle(f"{LAKES[prefix]['name']}: depth-resolved forcing from the σ-to-z "
                  "coupling (deepest column, 2-day run)", fontsize=18, y=0.97)
-    fig.savefig(OUT / "figure_vertical_sigma_z.png", dpi=300, bbox_inches="tight",
+    fig.savefig(OUT / "figure_vertical_sigma_z.png", dpi=500, bbox_inches="tight",
                 facecolor="white")
     plt.close(fig)
     print("wrote figure_vertical_sigma_z.png")
@@ -531,7 +531,7 @@ def fig_forcing_example(prefix="polyfytos"):
                  f"{LAKES.get(prefix,{}).get('name',prefix)} "
                  "— a single coupled FLOW+WAVE run, OpenDrift-ready",
                  fontsize=19.5, y=0.94)
-    fig.savefig(DOCS / "figure_forcing_example.png", dpi=300, bbox_inches="tight",
+    fig.savefig(DOCS / "figure_forcing_example.png", dpi=500, bbox_inches="tight",
                 facecolor="white")
     plt.close(fig)
     print("wrote figure_forcing_example.png")

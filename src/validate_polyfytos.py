@@ -128,7 +128,7 @@ def main():
     fig.suptitle("Auto-generated closed-lake configuration vs hand-built Polyfytos model "
                  "(shared grid, 48 h mean surface fields)", fontsize=18, y=0.975)
     out = ROOT / "docs" / "figure_validation.png"
-    fig.savefig(out, dpi=300, bbox_inches="tight", facecolor="white")
+    fig.savefig(out, dpi=500, bbox_inches="tight", facecolor="white")
     print("wrote", out)
 
 
