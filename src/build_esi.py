@@ -54,7 +54,7 @@ def build_cover_letter():
                 p.add_run(part)
         return p
 
-    para("22 June 2026", align=L, after=6)
+    para("26 June 2026", align=L, after=6)
     para("To the Editors-in-Chief,\nEarth Science Informatics", align=L, after=12)
     para("Dear Editors,", align=L, after=10)
 
@@ -86,12 +86,13 @@ def build_cover_letter():
          "pipeline, demonstrated generality across twelve lakes, and full software and "
          "data availability. It addresses a concrete and timely computational barrier to "
          "environmental transport modelling in freshwater systems. The generality is "
-         "supported by a model-to-model benchmark against an expert-built reservoir model "
-         "and by an independent comparison of the exported surface temperature against "
-         "satellite observations for four further lakes. The complete source code is "
-         "released under the MIT licence with a continuous-integration test capsule, and "
-         "the generated twelve-lake forcing dataset is openly archived, so that the "
-         "reported results are fully reproducible.")
+         "supported by a same-group model-to-model consistency check against an expert-built "
+         "reservoir model and by an independent comparison of the exported surface temperature "
+         "against satellite observations for four further lakes. The complete source code is "
+         "released under the MIT licence with a pinned software environment and a "
+         "continuous-integration test that reproduces the sigma-to-z export from a clean "
+         "checkout, and the twelve-lake forcing dataset is released openly as CF-1.8 NetCDF, so "
+         "that the reported results are fully reproducible and the data are FAIR-interoperable.")
 
     para("This manuscript is original, has not been published previously, and is not under "
          "consideration for publication elsewhere. All authors have approved the manuscript "
@@ -99,9 +100,10 @@ def build_cover_letter():
          "research did not receive any specific grant from funding agencies in the public, "
          "commercial, or not-for-profit sectors; the work was carried out using the existing "
          "research infrastructure of CERTH-ITI. The source code is openly available at "
-         "https://github.com/vaspapa79/LakeForcing and archived on Zenodo (concept DOI: "
-         "https://doi.org/10.5281/zenodo.20627160); the generated twelve-lake forcing "
-         "dataset is distributed as release assets of the same archive.")
+         "https://github.com/vaspapa79/LakeForcing and archived on Zenodo under the concept DOI "
+         "https://doi.org/10.5281/zenodo.20627160 (which archives the source code, MIT); the "
+         "generated twelve-lake forcing dataset (CC-BY-4.0) is distributed as a versioned GitHub "
+         "release asset with a checksummed file manifest.")
 
     para("Thank you for your consideration. We look forward to your response.", after=14)
     para("Sincerely,", align=L, after=2)

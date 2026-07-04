@@ -156,7 +156,7 @@ def main():
             va="center", fontsize=9.6, color="#333", zorder=4)
 
     for out in (DOCS / "graphical_abstract.png", ROOT / "paper" / "GraphicalAbstract.png"):
-        fig.savefig(out, dpi=300, facecolor="white", bbox_inches="tight", pad_inches=0.05)
+        fig.savefig(out, dpi=500, facecolor="white", bbox_inches="tight", pad_inches=0.05)
         print("wrote", out)
     plt.close(fig)
 

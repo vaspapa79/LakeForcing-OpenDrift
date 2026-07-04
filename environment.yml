@@ -1,0 +1,24 @@
+# LakeForcing -- pinned conda-forge environment for the open, engine-independent
+# portion of the pipeline: the sigma-to-z CF exporter (src/cf_export.py) and the
+# OpenDrift transport demonstration. The Delft3D 4.07.01 engine (FLOW + WAVE/SWAN)
+# is installed separately (see README) and is NOT required for this environment:
+# the bundled fixture test (tests/test_cf_export.py) runs without it.
+#
+#   conda env create -f environment.yml
+#   conda activate lakeforcing
+#   pytest tests/test_cf_export.py -q
+name: lakeforcing
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - opendrift=1.14.9      # Lagrangian demo; pins the tested reader behaviour
+  - numpy
+  - scipy
+  - xarray
+  - netcdf4
+  - pyproj
+  - rasterio              # consistent conda-forge GDAL/PROJ binding
+  - matplotlib
+  - pyyaml
+  - pytest

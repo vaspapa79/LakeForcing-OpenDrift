@@ -90,6 +90,19 @@ fixture (`tests/fixtures/trim-erken_mini.nc`, 125×52 grid, 14 σ-layers, 2 time
 `wavm-erken_mini.nc`), built by `tests/build_fixture.py`, and asserts CF compliance and the headline
 variables. This also runs in GitHub-Actions CI.
 
+### Container / pinned environment (one-command reproduction)
+The repository root carries a `Dockerfile` and a pinned conda `environment.yml`
+(Python 3.11, `opendrift==1.14.9`, conda-forge) for the open, engine-independent
+portion of the pipeline — the σ-to-z exporter and the OpenDrift demo:
+
+```bash
+docker build -t lakeforcing .
+docker run --rm lakeforcing            # runs the exporter fixture test (same as CI)
+# or, without Docker:
+conda env create -f environment.yml && conda activate lakeforcing
+pytest tests/test_cf_export.py -q
+```
+
 ### Rebuilding the manuscript
 The submission `.docx` is generated from source: `python src/build_docx.py` renders
 `paper/CAGEO_manuscript.md` (equations as native OMML via `src/omml_equations.py`; figures from

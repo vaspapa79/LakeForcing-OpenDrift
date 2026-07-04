@@ -102,7 +102,7 @@ def main():
              "colour = mean surface current speed (per-lake scale, blue=slow, red=fast); "
              "grey = land; black lines = 36 h trajectories; ★ release, • endpoints",
              ha="center", va="top", fontsize=14)
-    fig.savefig(OUT / "figure_demonstration.png", dpi=300, bbox_inches="tight",
+    fig.savefig(OUT / "figure_demonstration.png", dpi=500, bbox_inches="tight",
                 facecolor="white")
     print("wrote", OUT / "figure_demonstration.png")
 

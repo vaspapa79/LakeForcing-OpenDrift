@@ -15,7 +15,7 @@ from docx import Document
 from docx.oxml import parse_xml, OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Pt, Inches, RGBColor
-from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
 
 ROOT = Path(r"C:/Users/vaspapa/Desktop/LakeForcing_OpenDrift")
@@ -56,32 +56,18 @@ FIGS = {
         "speed (per-lake colour scale) with 36 h particle trajectories (black), "
         "release point (star) and endpoints (dots); land is grey."),
     "scatter": (ROOT / "docs/figure_drift_scatter.png", 7,
-        "Physical consistency of the demonstration: 36 h mean drift versus "
-        "(a) approximate mean depth and (b) maximum surface current. With only "
-        "twelve lakes these are rank tendencies, not fits: the drift correlates "
-        "negatively with depth (Spearman ρ = −0.55 for mean depth and −0.57 for "
-        "maximum depth, p ≈ 0.05–0.06) and positively with surface area "
-        "(ρ = +0.63, p = 0.03) and fetch (ρ = +0.57). Only the area correlation is "
-        "significant at n = 12, so transport is read as governed by basin size, "
-        "fetch and wind exposure rather than peak current alone."),
+        "Physical consistency: 36 h mean drift versus (a) mean depth and "
+        "(b) maximum surface current for the twelve lakes, read as rank tendencies "
+        "(n = 12; Section 5.3)."),
     "validation": (ROOT / "docs/figure_validation.png", 8,
-        "Benchmark of the auto-generated closed-lake configuration against the "
-        "peer-reviewed, expert-built Polyfytos model on the shared grid (48 h mean "
-        "surface fields): (a, b) surface-current speed and (c) its scatter; "
-        "(d, e) surface temperature and (f) its scatter. The automated forcing "
-        "reproduces the thermal field (RMSE 0.85 °C) and current magnitude "
-        "(RMSE 1.5 cm/s, r = 0.80); the weaker auto currents reflect the absence "
-        "of the river discharge that the hand-built model includes."),
+        "Consistency check against the expert-built Polyfytos model on the shared "
+        "grid (48 h mean surface fields): (a, b) surface-current speed and "
+        "(c) scatter; (d, e) surface temperature and (f) scatter (Section 5.6)."),
     "satellite": (ROOT / "docs/figure_satellite.png", 9,
-        "Independent validation against satellite lake surface water temperature "
-        "(Landsat-8/9 Collection-2 Level-2 thermal band, near-cloudless overpasses "
-        "around 1-3 July 2022): for each lake, the satellite skin temperature, the "
-        "exported model surface temperature at the diurnal peak, and their scatter. "
-        "The three Northern-Hemisphere summer lakes run several °C cold of the 2022 "
-        "heatwave skin temperature — a climatological-initialisation effect — while "
-        "the Southern-Hemisphere winter control (Nova Ponte) matches to below 1 °C, "
-        "indicating the heat-flux forcing is sound and the bias is in the "
-        "initialisation."),
+        "Validation against satellite lake surface water temperature (Landsat-8/9 "
+        "Collection-2 Level-2 thermal band, overpasses around 1-3 July 2022): per "
+        "lake, satellite skin temperature, exported model surface temperature at "
+        "the diurnal peak, and their scatter (Section 5.7)."),
 }
 
 
@@ -149,8 +135,9 @@ def front_matter(doc):
     r.bold = True; r.font.size = Pt(16)
 
     authors = [("Vassilios Papaioannou", "1,*"), ("Christos G. E. Anagnostopoulos", "1"),
-               ("Anastasia Moumtzidou", "1"), ("Ilias Gialampoukidis", "1"),
-               ("Stefanos Vrochidis", "1"), ("Ioannis Kompatsiaris", "1")]
+               ("Dimitrios Valsamis", "1"), ("Anastasia Moumtzidou", "1"),
+               ("Ilias Gialampoukidis", "1"), ("Stefanos Vrochidis", "1"),
+               ("Ioannis Kompatsiaris", "1")]
     p = doc.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     for i, (name, sup) in enumerate(authors):
         if i:
@@ -165,8 +152,24 @@ def front_matter(doc):
                    "57001 Thessaloniki, Greece")
     ar.italic = True; ar.font.size = Pt(10)
 
+    orcids = [("Vassilios Papaioannou", "0000-0001-6598-7107"),
+              ("Christos G. E. Anagnostopoulos", "0009-0006-9839-4870"),
+              ("Dimitrios Valsamis", "0009-0002-6699-4426"),
+              ("Anastasia Moumtzidou", "0000-0001-7615-8400"),
+              ("Ilias Gialampoukidis", "0000-0002-5234-9795"),
+              ("Stefanos Vrochidis", "0000-0002-2505-9178"),
+              ("Ioannis Kompatsiaris", "0000-0001-6447-9020")]
+    o = doc.add_paragraph(); o.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    lbl = o.add_run("ORCID iDs: "); lbl.italic = True; lbl.font.size = Pt(10)
+    for k, (name, oid) in enumerate(orcids):
+        if k:
+            o.add_run("; ").font.size = Pt(10)
+        o.add_run(f"{name} ").font.size = Pt(10)
+        add_hyperlink(o, f"https://orcid.org/{oid}", oid)
+
     emails = [("Vassilios Papaioannou", "vaspapa@iti.gr"),
               ("Christos G. E. Anagnostopoulos", "anagn_c@iti.gr"),
+              ("Dimitrios Valsamis", "dvalsamis@iti.gr"),
               ("Anastasia Moumtzidou", "moumtzid@iti.gr"),
               ("Ilias Gialampoukidis", "heliasgj@iti.gr"),
               ("Stefanos Vrochidis", "stefanos@iti.gr"),
@@ -328,43 +331,70 @@ def split_row(line):
     return [c.replace("\x01", r"\|") for c in line.split("|")]
 
 
+def emit_article_info(doc, keywords, credit, abstract):
+    """C&G front matter: ARTICLE INFO (Keywords, Authorship statement) + ABSTRACT."""
+    doc.add_heading("ARTICLE INFO", level=1)
+    kp = doc.add_paragraph(); kp.add_run("Keywords:").bold = True   # C&G: keywords as a list
+    for kw in [k.strip() for k in keywords.split(";") if k.strip()]:
+        doc.add_paragraph(kw)
+    doc.add_heading("Authorship contribution statement", level=2)
+    if credit:
+        add_runs(doc.add_paragraph(), credit)
+    doc.add_heading("ABSTRACT", level=1)
+    add_runs(doc.add_paragraph(), abstract)
+
+
 def main():
     lines = MD.read_text(encoding="utf-8").splitlines()
     start = next(i for i, l in enumerate(lines) if l.strip() == "## Abstract")
     body = lines[start:]
 
     doc = Document()
-    # narrow margins for more usable page width
+    # Computers & Geosciences Word template: single column, 1-inch margins,
+    # Times New Roman, double-spaced, continuous line numbers for review.
     for sec in doc.sections:
-        sec.top_margin = Inches(0.6); sec.bottom_margin = Inches(0.6)
-        sec.left_margin = Inches(0.65); sec.right_margin = Inches(0.65)
-        # continuous line numbers for peer review (Elsevier requirement)
+        sec.top_margin = Inches(1.0); sec.bottom_margin = Inches(1.0)
+        sec.left_margin = Inches(1.0); sec.right_margin = Inches(1.0)
         sectPr = sec._sectPr
         ln = OxmlElement("w:lnNumType")
         ln.set(qn("w:countBy"), "1"); ln.set(qn("w:restart"), "continuous")
         ln.set(qn("w:distance"), "360")
         cols = sectPr.find(qn("w:cols"))
         (cols.addprevious(ln) if cols is not None else sectPr.append(ln))
-    # base style: Times New Roman, justified, larger & tighter
+    # base style: Times New Roman, justified, DOUBLE-spaced (C&G requirement)
     normal = doc.styles["Normal"]
     normal.font.name = SERIF; normal.font.size = Pt(10)
     pf = normal.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-    pf.line_spacing = 1.0
-    pf.space_before = Pt(0); pf.space_after = Pt(3)
-    hsizes = {"Heading 1": 12, "Heading 2": 12, "Heading 3": 12}
+    pf.line_spacing = 2.0; pf.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+    pf.space_before = Pt(0); pf.space_after = Pt(0)
+    hsizes = {"Heading 1": 12, "Heading 2": 11, "Heading 3": 11}
     for hs in ("Heading 1", "Heading 2", "Heading 3", "Title"):
         try:
             st = doc.styles[hs]
             st.font.name = SERIF
             st.font.color.rgb = RGBColor(0, 0, 0)   # black headings, no accent-blue
-            st.font.bold = True                     # keep titles distinct at 12 pt
+            st.font.bold = True
             if hs in hsizes:
                 st.font.size = Pt(hsizes[hs])
+            st.paragraph_format.line_spacing = 2.0
+            st.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
             st.paragraph_format.space_before = Pt(6)
-            st.paragraph_format.space_after = Pt(3)
+            st.paragraph_format.space_after = Pt(0)
         except KeyError:
             pass
+    # Pre-parse the CRediT statement so it can be emitted in the ARTICLE INFO
+    # block (template order) and skipped where it appears later in the body.
+    credit_text = ""
+    for k, l in enumerate(body):
+        if l.strip().startswith("## CRediT"):
+            j = k + 1; buf = []
+            while j < len(body) and not body[j].strip().startswith("## "):
+                if body[j].strip():
+                    buf.append(body[j].strip())
+                j += 1
+            credit_text = " ".join(buf)
+            break
     front_matter(doc)
 
     i = 0
@@ -373,6 +403,30 @@ def main():
         s = body[i].strip()
         if not s or s == "---":
             i += 1; continue
+        if s == "## Abstract":
+            j = i + 1; abs_buf = []
+            while j < len(body) and not body[j].strip().startswith("**Keywords"):
+                if body[j].strip() and body[j].strip() != "---":
+                    abs_buf.append(body[j].strip())
+                j += 1
+            kw_buf = []                                    # keywords may wrap over lines
+            if j < len(body):
+                kw_buf.append(re.sub(r"^\*\*Keywords:\*\*\s*", "", body[j].strip()))
+                j += 1
+                while j < len(body):
+                    nx = body[j].strip()
+                    if not nx or nx == "---" or nx.startswith(("#", "[[", "|", "- ")):
+                        break
+                    kw_buf.append(nx); j += 1
+            emit_article_info(doc, " ".join(kw_buf), credit_text, " ".join(abs_buf))
+            while i < len(body) and not re.match(r"## 1\.", body[i].strip()):
+                i += 1
+            continue
+        if s.startswith("## CRediT"):                 # moved into ARTICLE INFO
+            i += 1
+            while i < len(body) and not body[i].strip().startswith("## "):
+                i += 1
+            continue
         m = re.match(r"\[\[EQ:([a-z]+)\]\]", s)
         if m:
             emit_equation(doc, m.group(1)); i += 1; continue

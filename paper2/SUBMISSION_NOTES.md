@@ -30,14 +30,20 @@ manuscript propagates to both packages on rebuild.
   - *Funding* — "no specific grant; CERTH-ITI infrastructure" (Funding section).
   - *Competing interests* — none (Declaration of competing interest).
   - *Author contributions* — CRediT statement (V.P., C.G.E.A., A.M., I.G., S.V., I.K.).
-  - *Data availability* — GitHub + Zenodo (Data availability section).
+  - *Data availability* — Zenodo (concept DOI) archives the **source code** (MIT); the
+    **forcing dataset** (CC-BY-4.0, CF-1.8 NetCDF) is a versioned **GitHub release asset** with a
+    checksummed manifest (`output/DATASET_MANIFEST.txt`). A standalone dataset DOI can be minted if
+    ESI requires a citable data record (see `ESI_strict_review_v01.docx`, item E1).
   - *Code availability* — same GitHub repo (MIT) + Zenodo archive; ESI weighs this
     heavily. If the form asks for a *separate* Code-availability statement, reuse:
     "Open source (MIT) at https://github.com/vaspapa79/LakeForcing, archived at
     https://doi.org/10.5281/zenodo.20627160."
   - *Ethics approval / Consent* — not applicable (no human/animal subjects).
 - **Open code/data (mandatory-ish for ESI):** public GitHub repo + Zenodo DOI, a CI test
-  on a bundled fixture, MIT licence, documented README — all already in place.
+  on a bundled fixture, a container recipe (`Dockerfile` + pinned `environment.yml`) for the
+  exporter+demo chain (review item E3), MIT licence, documented README — all in place.
+  **Push the Dockerfile/environment.yml to GitHub (and refresh the Zenodo archive) before
+  submitting**, so the released code matches the Section 3.2 claim.
 - **Reference style:** Springer is flexible at submission; the current author–year format
   is fine. If accepted, convert to *Springer Basic* (name–year) if requested.
 - **Suggested reviewers (optional):** can be drawn from the reference list (e.g. authors of
